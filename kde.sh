@@ -2,12 +2,13 @@
 
 
 # kde_path="/home/kwhuang/bash-multi-pbs"
-job_path="/Users/kwhuang/bash-multi-pbs/Fornax"
-source_path="/Users/kwhuang/bash-multi-pbs/KDE-2-Gaussian"
+job_path="/home/kwhuang/bash-multi-pbs/Fornax"
+source_path="/home/kwhuang/bash-multi-pbs/KDE-2-Gaussian"
 
 
 radiuss='2.0'
 pmnans='True  False'
+pmcuts='1.0'  # std of pm
 
 kernels='gaussian  poisson'
 s_ones='0.005  0.01'
@@ -24,8 +25,14 @@ for ng in $ngs;  do
 for r_area in $r_areas;  do
 for radius in $radiuss;  do
 for pmnan in $pmnans;  do
+for pmnan in $pmnans;  do
 
-  run_name="R"$radius"_"$kernel"_N"$ng"_s"$s_one"_s"$s_two"_r"$r_area
+  if [ $pmnan = "True" ]; then
+    run_name="R"$radius"_"$kernel"_N"$ng"_s"$s_one"_s"$s_two"_r"$r_area"_pmnan"
+  else
+    run_name="R"$radius"_"$kernel"_N"$ng"_s"$s_one"_s"$s_two"_r"$r_area
+  fi  # if pmnan
+
   cd  $job_path
   cp  -r  $source_path  $run_name
   cd  $run_name
@@ -37,8 +44,7 @@ for pmnan in $pmnans;  do
   sed  "s/RATIO_AREA_TG_BG = .*/RATIO_AREA_TG_BG = $r_area    # ratio of area/g"  param_den.py > tmp.py  &&  mv  tmp.py  param_den.py
 
   sed  "s/RADIUS = .*/RADIUS = $radius    # querying radius in deg/g"  param_get.py > tmp.py  &&  mv  tmp.py  param_get.py
-
-REMOVE_PM_NAN = True    # True:on, Flase:off
+  sed  "s/REMOVE_PM_NAN = .*/REMOVE_PM_NAN = $pmnan    # True:on, Flase:off/g"  param_get.py > tmp.py  &&  mv  tmp.py  param_get.py
 
 
 done  #  for pmnan
