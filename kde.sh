@@ -54,7 +54,7 @@ for pmcut in $pmcuts;  do
     sed  "s/PM_CUT = .*/PM_CUT = True    # True:on, Flase:off/g"  param_get.py > tmp.py  &&  mv  tmp.py  param_get.py
   else
     sed  "s/PM_CUT = .*/PM_CUT = False    # True:on, Flase:off/g"  param_get.py > tmp.py  &&  mv  tmp.py  param_get.py
-    sed  "s/    PM_CUT_STD = .*/P    PM_CUT_STD = $pmcut/g"  param_get.py > tmp.py  &&  mv  tmp.py  param_get.py
+    sed  "s/    PM_CUT_STD = .*/    PM_CUT_STD = $pmcut/g"  param_get.py > tmp.py  &&  mv  tmp.py  param_get.py
   fi
 
   qsub  submit-coma.job  -q  bigmem
