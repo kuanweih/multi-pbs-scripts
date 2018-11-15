@@ -4,7 +4,8 @@
 job_path="/Users/kwhuang/bash-multi-pbs/Fornax"
 source_path="/Users/kwhuang/bash-multi-pbs/KDE-2-Gaussian"
 
-
+ra='39.99708'
+dec='-34.55083'
 radiuss='2.0'
 pmnans='True  False'
 pmcuts='0  1'  # std of pm
@@ -46,6 +47,8 @@ for pmcut in $pmcuts;  do
   sed  "s/KERNEL_BG = .*/KERNEL_BG = '$kernel'    # kernel/g"  param_den.py > tmp.py  &&  mv  tmp.py  param_den.py
   sed  "s/RATIO_AREA_TG_BG = .*/RATIO_AREA_TG_BG = $r_area    # ratio of area/g"  param_den.py > tmp.py  &&  mv  tmp.py  param_den.py
 
+  sed  "s/RA = .*/RA = $ra    # ra of target deg/g"  param_get.py > tmp.py  &&  mv  tmp.py  param_get.py
+  sed  "s/DEC = .*/DEC = $dec    # dec of target in deg/g"  param_get.py > tmp.py  &&  mv  tmp.py  param_get.py
   sed  "s/RADIUS = .*/RADIUS = $radius    # querying radius in deg/g"  param_get.py > tmp.py  &&  mv  tmp.py  param_get.py
   sed  "s/REMOVE_PM_NAN = .*/REMOVE_PM_NAN = $pmnan    # True:on, Flase:off/g"  param_get.py > tmp.py  &&  mv  tmp.py  param_get.py
 
